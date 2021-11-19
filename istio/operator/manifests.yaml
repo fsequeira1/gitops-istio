@@ -50,20 +50,11 @@ spec:
 ---
 
 ---
-# Source: istio-operator/templates/namespace.yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: istio-operator
-  labels:
-    istio-operator-managed: Reconcile
-    istio-injection: disabled
----
 # Source: istio-operator/templates/service_account.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  namespace: istio-operator
+  namespace: default
   name: istio-operator
 ---
 # Source: istio-operator/templates/clusterrole.yaml
@@ -175,6 +166,7 @@ rules:
   - namespaces
   - pods
   - pods/proxy
+  - pods/portforward
   - persistentvolumeclaims
   - secrets
   - services
@@ -190,7 +182,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: istio-operator
-  namespace: istio-operator
+  namespace: default
 roleRef:
   kind: ClusterRole
   name: istio-operator
@@ -200,7 +192,7 @@ roleRef:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: istio-operator
+  namespace: default
   labels:
     name: istio-operator
   name: istio-operator
@@ -217,7 +209,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: istio-operator
+  namespace: default
   name: istio-operator
 spec:
   replicas: 1
@@ -232,7 +224,7 @@ spec:
       serviceAccountName: istio-operator
       containers:
         - name: istio-operator
-          image: docker.io/istio/operator:1.11.4
+          image: docker.io/istio/operator:1.12.0
           command:
           - operator
           - server
@@ -258,13 +250,13 @@ spec:
             - name: WATCH_NAMESPACE
               value: "istio-system"
             - name: LEADER_ELECTION_NAMESPACE
-              value: "istio-operator"
+              value: "default"
             - name: POD_NAME
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
             - name: OPERATOR_NAME
-              value: "istio-operator"
+              value: "default"
             - name: WAIT_FOR_RESOURCES_TIMEOUT
               value: "300s"
             - name: REVISION

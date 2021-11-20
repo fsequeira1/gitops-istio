@@ -29,8 +29,10 @@ spec:
     meshProvider: istio
     metricsServer: http://prometheus.istio-system:9090
     includeLabelPrefix: app
-    istio.kubeconfig.secretName: ""
-    istio.kubeconfig.key: ""
+    istio:
+      kubeconfig:
+        secretName: ""
+        key: ""
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease

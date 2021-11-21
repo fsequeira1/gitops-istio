@@ -417,6 +417,35 @@ You can extend the analysis with custom metric checks targeting
 For configuring alerting of the canary analysis for Slack, MS Teams, Discord or Rocket see the
 [docs](https://docs.flagger.app/usage/alerting#canary-configuration).
 
+## Use with kind to demo
+
+### Port forward ingress
+```bash
+kubectl port-forward -n istio-system svc/istio-ingressgateway 8080:80
+```
+
+### generate 404 errors (client side)
+```bash
+xargs -I % -P 25 curl -H "Host: backend" -v -b "type=insider" http://localhost:8080/status/404 < <(printf '%s\n' {1..4000})
+``` 
+
+### generate 500 errors
+
+```bash
+xargs -I % -P 25 curl -H "Host: backend" -v -b "type=insider" http://localhost:8080/status/500 < <(printf '%s\n' {1..4000})
+``` 
+### generate constant bandwidth with delay 
+```bash
+watch 'curl localhost:8080/delay/1 -H "Host: backend" -v -b "type=insider"'
+```
+
+### generate constant bandwidth 
+```bash
+watch 'curl localhost:8080/ -H "Host: backend" -v -b "type=insider"'
+```
+
+
+
 ## Getting Help
 
 If you have any questions about progressive delivery:

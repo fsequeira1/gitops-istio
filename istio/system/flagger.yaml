@@ -10,7 +10,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: GitRepository
 metadata:
-  name: flagger-grafana
+  name: grafana
   namespace: istio-system
 spec:
   interval: 1h0m0s
@@ -61,8 +61,8 @@ spec:
       chart: grafana
       sourceRef:
         kind: GitRepository
-        name: flagger-grafana
+        name: grafana
   interval: 1h0m0s
-  releaseName: flagger-grafana
+  releaseName: grafana
   values:
     url: http://prometheus.istio-system:9090

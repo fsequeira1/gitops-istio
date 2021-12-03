@@ -1,11 +1,18 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
-kind: HelmRepository
+kind: GitRepository
 metadata:
   name: flagger
   namespace: istio-system
 spec:
   interval: 1h0m0s
-  url: https://flagger.app
+  url: https://github.com/fsequeira1/gitops-istio
+  ref:
+    branch: master
+  ignore: |
+    # exclude all
+    /*
+    # include charts directory
+    !/charts/ 
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease

@@ -24,7 +24,7 @@ spec:
     spec:
       chart: flagger
       sourceRef:
-        kind: HelmRepository
+        kind: GitRepository
         name: flagger
   interval: 1h0m0s
   releaseName: flagger

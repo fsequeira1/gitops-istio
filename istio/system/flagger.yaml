@@ -14,11 +14,9 @@ metadata:
   namespace: istio-system
 spec:
   interval: 1h0m0s
-  secretRef:
-    name: flux-system
-  url: ssh://git@github.com/fsequeira1/gitops-istio
+  url: https://github.com/fsequeira1/gitops-istio
   ref:
-    branch: master
+    branch: main
   ignore: |
     # exclude all
     /*

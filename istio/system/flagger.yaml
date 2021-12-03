@@ -58,7 +58,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: ./grafana
+      chart: ./charts/grafana
       sourceRef:
         kind: GitRepository
         name: grafana

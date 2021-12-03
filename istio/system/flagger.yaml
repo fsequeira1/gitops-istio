@@ -1,7 +1,16 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
-kind: GitRepository
+kind: HelmRepository
 metadata:
   name: flagger
+  namespace: istio-system
+spec:
+  interval: 1h0m0s
+  url: https://flagger.app
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: flagger-grafana
   namespace: istio-system
 spec:
   interval: 1h0m0s
@@ -25,7 +34,7 @@ spec:
       chart: flagger
       sourceRef:
         kind: GitRepository
-        name: flagger
+        name: flagger-grafana
   interval: 1h0m0s
   releaseName: flagger
   install:
